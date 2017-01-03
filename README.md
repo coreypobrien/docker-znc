@@ -16,7 +16,7 @@ ZNC needs to store settings somewhere, so simplest way to run it is to mount a
 directory from the host machine to `/znc-data` in the container:
 
     mkdir -p $HOME/.znc
-    docker run -d -p 6667 -v $HOME/.znc:/znc-data jimeh/znc
+    docker run -d -p 6667 -v $HOME/.znc:/znc-data coreypobrien/znc
 
 This will download the image if needed, and create a default config file in
 your data directory unless you already have a config in place. The default
@@ -27,7 +27,7 @@ exposed:
 
 Or if you want to specify which port to map the default 6667 port to:
 
-    docker run -d -p 36667:6667 -v $HOME/.znc:/znc-data jimeh/znc
+    docker run -d -p 36667:6667 -v $HOME/.znc:/znc-data coreypobrien/znc
 
 Resulting in port 36667 on the host mapping to 6667 within the container.
 
@@ -81,7 +81,7 @@ First we need to create a volume container:
 And then run the znc container using the `--volumes-from` option instead of
 `-v`:
 
-    docker run -d -p 6667 --name znc --volumes-from znc-data jimeh/znc
+    docker run -d -p 6667 --name znc --volumes-from znc-data coreypobrien/znc
 
 You'll want to periodically back up your znc data to the host:
 
@@ -96,11 +96,11 @@ And restore them later:
 As `docker run` passes all arguments after the image name to the entrypoint
 script, the [start-znc][] script simply passes all arguments along to ZNC.
 
-[start-znc]: https://github.com/jimeh/docker-znc/blob/master/start-znc
+[start-znc]: https://github.com/coreypobrien/docker-znc/blob/master/start-znc
 
 For example, if you want to use the `--makepass` option, you would run:
 
-    docker run -i -t -v $HOME/.znc:/znc-data jimeh/znc --makepass
+    docker run -i -t -v $HOME/.znc:/znc-data coreypobrien/znc --makepass
 
 Make note of the use of `-i` and `-t` instead of `-d`. This attaches us to the
 container, so we can interact with ZNC's makepass process. With `-d` it would
@@ -125,6 +125,6 @@ more information.
 ## Building It Yourself
 
 1. Follow Prerequisites above.
-2. Checkout source: `git clone https://github.com/jimeh/docker-znc.git && cd docker-znc`
+2. Checkout source: `git clone https://github.com/coreypobrien/docker-znc.git && cd docker-znc`
 3. Build container: `sudo docker build -t $(whoami)/znc .`
 4. Run container: `sudo docker run -d -p 6667 -v $HOME/.znc:/znc-data $(whoami)/znc`
